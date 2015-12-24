@@ -57,10 +57,11 @@ class Utilities implements Const {
         int i = 0;
         int j = 0;
 
-        while(i < first.length) {
-            result[i++] = first[i++];
+        while(j < first.length) {
+            result[i++] = first[j++];
         }
         
+        j = 0;
         while(j < second.length)    {
             result[i++] = second[j++];
         }
@@ -145,8 +146,13 @@ public class MyDes implements Const {
 
             temp = Utilities.combineArray(C[i], D[i]);
             System.out.println();
+
+            K[i] = applyPermutation(temp, P2);
+
             Utilities.printArray(C[i], " C " + i);
-            Utilities.printArray(D[i], " D " + i);                 
-        }
+            Utilities.printArray(D[i], " D " + i);
+            Utilities.printArray(temp, " TEMP ");
+            Utilities.printArray(K[i], " K " + i);
+        }   
     }
 }
