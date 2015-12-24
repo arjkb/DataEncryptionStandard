@@ -88,11 +88,11 @@ public class MyDes implements Const {
 		int[] result = new int[P.length];
 		
 		for(int i = 0; i < P.length; i++)	{
-			result[i] = sourceArray[P[i]];
+			result[i] = sourceArray[P[i] - 1];
 		}
-		return P;
+		return result;
 	}
-
+/*
     static int[] createSubkeys(int []key)    {
         int []K = new int[56];
 
@@ -108,7 +108,7 @@ public class MyDes implements Const {
 
         return K;
     }       
-
+*/
     public static void main(String args[])  {
         int C[][] = new int[17][];
         int D[][] = new int[17][];
@@ -125,14 +125,14 @@ public class MyDes implements Const {
                 14, 6, 61, 53, 45, 37, 29,
                 21, 13, 5, 28, 20, 12, 4 };
 
-	int[] P2 = { 14, 17, 11, 24, 1, 5,
-			3, 28, 15, 6, 21, 10,
-			23, 19, 12, 4, 26, 8,
-			16, 7, 27, 20, 13, 2,
-			41, 52, 31, 37, 47, 55,
-			30, 40, 51, 45, 33, 48,
-			44, 49, 39, 56, 34, 53,
-			46, 42, 50, 36, 29, 32  };
+	    int[] P2 = { 14, 17, 11, 24, 1, 5,
+		    	3, 28, 15, 6, 21, 10,
+			    23, 19, 12, 4, 26, 8,
+			    16, 7, 27, 20, 13, 2,
+	    		41, 52, 31, 37, 47, 55,
+		    	30, 40, 51, 45, 33, 48,
+			    44, 49, 39, 56, 34, 53,
+			    46, 42, 50, 36, 29, 32  };
 
         K[0] = new int [] { 0,0,0,1,0,0,1,1,
                     0,0,1,1,0,1,0,0,
@@ -145,10 +145,10 @@ public class MyDes implements Const {
 
         final int[] SHIFT_COUNT = {0, 1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1};
 
-        int KK[] = createSubkeys(K[0], );
-	int KK[] = applyPermutation(K[0], P1);
+//        int KK[] = createSubkeys(K[0], );
+	    int KK[] = applyPermutation(K[0], P1);
 
-        Utilities.printArray(KK);       
+        Utilities.printArray(K[0], "ORIGINAL KEYS");
         Utilities.printArray(KK, "PERMUTED KEYS");
 
         C[0] = Utilities.getArray(KK, Const.LEFT);
