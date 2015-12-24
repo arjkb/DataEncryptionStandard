@@ -92,23 +92,7 @@ public class MyDes implements Const {
 		}
 		return result;
 	}
-/*
-    static int[] createSubkeys(int []key)    {
-        int []K = new int[56];
 
-        for(int i = 0; i < 56; i++) {
-            try {
- //               System.out.println(" MOVING " + key[P[i]]);
-                K[i] = key[P1[i] - 1];
-            } catch(ArrayIndexOutOfBoundsException E)   {
-                System.out.println(" AIOOB " + E.toString());
-                System.out.println(" INDEX: " + i);
-            }
-        }
-
-        return K;
-    }       
-*/
     public static void main(String args[])  {
         int C[][] = new int[17][];
         int D[][] = new int[17][];
