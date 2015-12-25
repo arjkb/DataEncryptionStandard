@@ -108,6 +108,28 @@ class Utilities implements Const {
         return R;
     }
 
+    static int[] convertToBinArray(int num) {
+        int[] result = null;
+        switch(num) {
+            case 0: result = new int[] {0,0,0,0}; break;
+            case 1: result = new int[] {0,0,0,1}; break;
+            case 2: result = new int[] {0,0,1,0}; break;
+            case 3: result = new int[] {0,0,1,1}; break;
+            case 4: result = new int[] {0,1,0,0}; break;
+            case 5: result = new int[] {0,1,0,1}; break;
+            case 6: result = new int[] {0,1,1,0}; break;
+            case 7: result = new int[] {0,1,1,1}; break;
+            case 8: result = new int[] {1,0,0,0}; break;
+            case 9: result = new int[] {1,0,0,1}; break;
+            case 10: result = new int[] {1,0,1,0}; break;
+            case 11: result = new int[] {1,0,1,1}; break;
+            case 12: result = new int[] {1,1,0,0}; break;
+            case 13: result = new int[] {1,1,0,1}; break;
+            case 14: result = new int[] {1,1,1,0}; break;
+            case 15: result = new int[] {1,1,1,1}; break;
+        }
+        return result;
+    }
 }
 
 public class MyDes implements Const {
@@ -201,10 +223,10 @@ class DES    {
 
     static int[] func(int R[], int K[]) {
         int[] ER = applyPermutation(R, Permutation.E);
-        int[] temp = Utilities.XOR(K, ER);
+        int[] temp = Utilities.xor(K, ER);
 
         for(int i = 0, k = 1; i < 48; i += 6, k++)  {
-            int[] temp_6bit = splice(temp, i, 6);
+            int[] temp_6bit = Utilities.splice(temp, i, 6);
 
         }
 
@@ -212,13 +234,19 @@ class DES    {
     }
 
     static int[] sprocess(int sboxnum, int [] A)  {
+        /* Convert the 6 bits in A to
+         * 4 bits after processing through S-Box
+         */
+
         int row = 0;
         int col = 0;
         int num = 0;
 
-        row = (A[5] * Math.pow(2, 0)) + (A[0] * Math.pow(2, 1));
+        int[] result = null;
 
-        for(i = 0; i < 4; i++)  {
+        row = (A[5] * (int)Math.pow(2, 0)) + (A[0] * (int)Math.pow(2, 1));
+
+        for(int i = 0; i < 4; i++)  {
             col += A[4-i] * Math.pow(2, i);
         }
 
@@ -232,7 +260,9 @@ class DES    {
             case 7: num = S_Box.S7[row][col]; break;
             case 8: num = S_Box.S8[row][col]; break;
         }
-    }
+        result = Utilities.convertToBinArray(num);
+        return result;
+    } // end of sprocess()
 }
 
 class S_Box {
