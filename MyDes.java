@@ -5,18 +5,22 @@ interface Const {
 }
 
 class Utilities implements Const {   
-    static void printArray(int C[], String message)    {
+    static void printArray(int C[], String message, int width)    {
         System.out.print("\n PRINTING: " + message + " " + C.length + "\t");
         for(int i = 0, counter = 1; i < C.length; i++, counter++) {
             System.out.print(C[i]);
-            if(counter % 7 == 0)  {
+            if(counter % width == 0)  {
                 System.out.print(" ");
             }
         }
     }
 
     static void printArray(int C[]) {
-        printArray(C, "");
+        printArray(C, "", 7);
+    }
+
+    static void printArray(int C[], String message) {
+        printArray(C, message, 7);
     }
 
     static int[] getArray(int []array, int half)  {
@@ -92,6 +96,10 @@ public class MyDes implements Const {
         0,1,0,0, 0,1,0,1, 0,1,1,0, 0,1,1,1, 
         1,0,0,0, 1,0,0,1, 1,0,1,0, 1,0,1,1, 
         1,1,0,0, 1,1,0,1, 1,1,1,0, 1,1,1,1 };
+
+        int[] IPM = null;
+        int[][] L = new int[17][];
+        int[][] R = new int[17][];
         
         int C[][] = new int[17][];
         int D[][] = new int[17][];
@@ -120,6 +128,7 @@ public class MyDes implements Const {
         D[0] = Utilities.getArray(KK, Const.RIGHT);
         
         for(int i = 1; i <= 16; i++)  {
+            /* Loop to compute the keys */
 
             C[i] = Utilities.shiftLeft(C[i-1], SHIFT_COUNT[i]);
             D[i] = Utilities.shiftLeft(D[i-1], SHIFT_COUNT[i]);
@@ -133,7 +142,24 @@ public class MyDes implements Const {
             Utilities.printArray(D[i], " D " + i);
             Utilities.printArray(temp, " TEMP ");
             Utilities.printArray(K[i], " K " + i);
-        }   
+        }
+
+        // Apply initial permutation on M
+        IPM = DES.applyPermutation(M, Permutation.IP);
+
+        Utilities.printArray(IPM, "IPM", 4);
+
+        // Divide IPM into left and right half of 32 bits
+        L[0] = Utilities.getArray(IPM, Const.LEFT);
+        R[0] = Utilities.getArray(IPM, Const.RIGHT);
+
+        Utilities.printArray(L[0], "L0", 4);
+        Utilities.printArray(R[0], "R0", 4);
+
+        int[] ER = DES.applyPermutation(R[0], Permutation.E);
+
+        Utilities.printArray(ER, "ER", 6);
+
     }
 }
 
@@ -146,6 +172,10 @@ class DES    {
 		}
 		return result;
 	}
+
+    static int[] func(int R[], int K[]) {
+        return null;
+    }
 }
 
 class Permutation	{
@@ -175,4 +205,13 @@ class Permutation	{
         59, 51, 43, 35, 27, 19, 11, 3,
         61, 53, 45, 37, 29, 21, 13, 5,
         63, 55, 47, 39, 31, 23, 15, 7   };
+    
+    static int[] E = { 32, 1, 2, 3, 4, 5,
+        4, 5, 6, 7, 8, 9,
+        8, 9, 10, 11, 12, 13,
+        12, 13, 14, 15, 16, 17,
+        16, 17, 18, 19, 20, 21, 
+        20, 21, 22, 23, 24, 25,
+        24, 25, 26, 27, 28, 29,
+        28, 29, 30, 31, 32, 1   };
 }
