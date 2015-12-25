@@ -222,15 +222,22 @@ class DES    {
 	}
 
     static int[] func(int R[], int K[]) {
+        int[] result = null;
         int[] ER = applyPermutation(R, Permutation.E);
         int[] temp = Utilities.xor(K, ER);
+        int[] temp_6bit = null;
+        int[] temp_4bit = null;
 
         for(int i = 0, k = 1; i < 48; i += 6, k++)  {
-            int[] temp_6bit = Utilities.splice(temp, i, 6);
+            temp_6bit = Utilities.splice(temp, i, 6);
+            temp_4bit = sprocess(i+1, temp_6bit);
 
+            result = Utilities.combineArray(result, temp_4bit);
         }
 
-        return null;
+        applyPermutation(result, Permutation.P);
+
+        return result;
     }
 
     static int[] sprocess(int sboxnum, int [] A)  {
@@ -351,4 +358,13 @@ class Permutation	{
         20, 21, 22, 23, 24, 25,
         24, 25, 26, 27, 28, 29,
         28, 29, 30, 31, 32, 1   };
+
+    static int[] P = {  16, 7, 20, 21,
+                        29, 12, 28, 17,
+                        1, 15, 23, 26,
+                        5, 18, 31, 10,
+                        2, 8, 24, 14,
+                        32, 27, 3, 9,
+                        19, 13, 30, 6,
+                        22, 11, 4, 25   };
 }
