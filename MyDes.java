@@ -99,6 +99,15 @@ class Utilities implements Const {
             return -1; // This is an error condition
         }
     }
+
+    static int[] splice(int[] A, int start, int size)   {
+        int[] R = new int[size];
+        for(int i = 0; i < size; i++)   {
+            R[i] = A[start + i];
+        }
+        return R;
+    }
+
 }
 
 public class MyDes implements Const {
@@ -191,7 +200,38 @@ class DES    {
 	}
 
     static int[] func(int R[], int K[]) {
+        int[] ER = applyPermutation(R, Permutation.E);
+        int[] temp = Utilities.XOR(K, ER);
+
+        for(int i = 0, k = 1; i < 48; i += 6, k++)  {
+            int[] temp_6bit = splice(temp, i, 6);
+
+        }
+
         return null;
+    }
+
+    static int[] sprocess(int sboxnum, int [] A)  {
+        int row = 0;
+        int col = 0;
+        int num = 0;
+
+        row = (A[5] * Math.pow(2, 0)) + (A[0] * Math.pow(2, 1));
+
+        for(i = 0; i < 4; i++)  {
+            col += A[4-i] * Math.pow(2, i);
+        }
+
+        switch(sboxnum) {
+            case 1: num = S_Box.S1[row][col]; break;
+            case 2: num = S_Box.S2[row][col]; break;
+            case 3: num = S_Box.S3[row][col]; break;
+            case 4: num = S_Box.S4[row][col]; break;
+            case 5: num = S_Box.S5[row][col]; break;
+            case 6: num = S_Box.S6[row][col]; break;
+            case 7: num = S_Box.S7[row][col]; break;
+            case 8: num = S_Box.S8[row][col]; break;
+        }
     }
 }
 
