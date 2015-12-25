@@ -142,6 +142,9 @@ public class MyDes implements Const {
         1,0,0,0, 1,0,0,1, 1,0,1,0, 1,0,1,1, 
         1,1,0,0, 1,1,0,1, 1,1,1,0, 1,1,1,1 };
 
+        int[] R16L16 = null;
+        int[] encryptedMessage = null;
+
         int[] IPM = null;
         int[][] L = new int[17][];
         int[][] R = new int[17][];
@@ -209,6 +212,14 @@ public class MyDes implements Const {
                 Utilities.printArray(R[1], "R1", 4);
             }
         }
+
+        // reverse the order of the 16th pair
+        R16L16 = Utilities.combineArray(R[16], L[16]);
+
+        encryptedMessage = DES.applyPermutation(R16L16, Permutation.FP);
+
+        Utilities.printArray(encryptedMessage, " ENCRYPTED MESSAGE ", 8);
+        System.out.println();
     }
 }
 
@@ -375,4 +386,13 @@ class Permutation	{
                         32, 27, 3, 9,
                         19, 13, 30, 6,
                         22, 11, 4, 25   };
+
+    static int[] FP = { 40, 4, 48, 16, 56, 24, 64, 32,
+                        39, 7, 47, 15, 55, 23, 63, 31,
+                        38, 6, 46, 14, 54, 22, 62, 30,
+                        37, 5, 45, 13, 53, 21, 61, 29,
+                        36, 4, 44, 12, 52, 20, 60, 28,
+                        35, 3, 43, 11, 51, 19, 59, 27,
+                        34, 2, 42, 10, 50, 18, 58, 26,
+                        33, 1, 41, 9, 49, 17, 57, 25    };
 }
