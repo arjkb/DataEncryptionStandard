@@ -72,6 +72,16 @@ class Utilities implements Const {
         return result;
     }
 
+    static int[] xor(int[] Aa, int[] Bb)    {
+        int[] R = new int[Aa.length];
+
+        for(int i = 0; i < R.length; i++)   {
+            R[i] = xor_bitwise(Aa[i], Bb[i]);
+        }
+
+        return R;
+    }
+
     static private int xor_bitwise(int a, int b)   {
         if((a == 0) && (b == 0))    {
             return 0;
@@ -163,6 +173,9 @@ public class MyDes implements Const {
         int[] ER = DES.applyPermutation(R[0], Permutation.E);
 
         Utilities.printArray(ER, "ER", 6);
+
+        temp = Utilities.xor(K[1], ER);
+        Utilities.printArray(temp, "XORed temp", 6);
 
     }
 }
