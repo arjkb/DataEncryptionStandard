@@ -93,24 +93,6 @@ public class MyDes implements Const {
         int[][] K = new int[17][];
         int[] temp = null;
 
-        int []P1 = {  57, 49, 41, 33, 25, 17, 9, 
-                1, 58, 50, 42, 34, 26, 18,
-                10, 2, 59, 51, 43, 35, 27,
-                19, 11, 3, 60, 52, 44, 36,          
-                63, 55, 47, 39, 31, 23, 15, 
-                7, 62, 54, 46, 38, 30, 22,
-                14, 6, 61, 53, 45, 37, 29,
-                21, 13, 5, 28, 20, 12, 4 };
-
-	    int[] P2 = { 14, 17, 11, 24, 1, 5,
-		    	3, 28, 15, 6, 21, 10,
-			    23, 19, 12, 4, 26, 8,
-			    16, 7, 27, 20, 13, 2,
-	    		41, 52, 31, 37, 47, 55,
-		    	30, 40, 51, 45, 33, 48,
-			    44, 49, 39, 56, 34, 53,
-			    46, 42, 50, 36, 29, 32  };
-
         K[0] = new int [] { 0,0,0,1,0,0,1,1,
                     0,0,1,1,0,1,0,0,
                     0,1,0,1,0,1,1,1,
@@ -123,7 +105,7 @@ public class MyDes implements Const {
         final int[] SHIFT_COUNT = {0, 1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1};
 
 //        int KK[] = createSubkeys(K[0], );
-	    int KK[] = DES.applyPermutation(K[0], P1);
+	    int KK[] = DES.applyPermutation(K[0], Permutation.P1);
 
         Utilities.printArray(K[0], "ORIGINAL KEYS");
         Utilities.printArray(KK, "PERMUTED KEYS");
@@ -139,7 +121,7 @@ public class MyDes implements Const {
             temp = Utilities.combineArray(C[i], D[i]);
             System.out.println();
 
-            K[i] = DES.applyPermutation(temp, P2);
+            K[i] = DES.applyPermutation(temp, Permutation.P2);
 
             Utilities.printArray(C[i], " C " + i);
             Utilities.printArray(D[i], " D " + i);
@@ -158,4 +140,24 @@ class DES    {
 		}
 		return result;
 	}
+}
+
+class Permutation	{
+    static int []P1 = {  57, 49, 41, 33, 25, 17, 9, 
+        1, 58, 50, 42, 34, 26, 18,
+        10, 2, 59, 51, 43, 35, 27,
+        19, 11, 3, 60, 52, 44, 36,          
+        63, 55, 47, 39, 31, 23, 15, 
+        7, 62, 54, 46, 38, 30, 22,
+        14, 6, 61, 53, 45, 37, 29,
+        21, 13, 5, 28, 20, 12, 4 };
+    
+    static int[] P2 = { 14, 17, 11, 24, 1, 5,
+	    3, 28, 15, 6, 21, 10,
+		23, 19, 12, 4, 26, 8,
+		16, 7, 27, 20, 13, 2,
+	    41, 52, 31, 37, 47, 55,
+		30, 40, 51, 45, 33, 48,
+		44, 49, 39, 56, 34, 53,
+		46, 42, 50, 36, 29, 32  };
 }
