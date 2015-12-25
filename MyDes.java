@@ -1,10 +1,10 @@
+
 interface Const {
     public int LEFT = 0;
     public int RIGHT = 1;
 }
 
 class Utilities implements Const {   
-
     static void printArray(int C[], String message)    {
         System.out.print("\n PRINTING: " + message + " " + C.length + "\t");
         for(int i = 0, counter = 1; i < C.length; i++, counter++) {
@@ -85,14 +85,6 @@ class Utilities implements Const {
 
 public class MyDes implements Const {
 	
-	static int[] applyPermutation(int[] sourceArray, int[] P)	{
-		int[] result = new int[P.length];
-		
-		for(int i = 0; i < P.length; i++)	{
-			result[i] = sourceArray[P[i] - 1];
-		}
-		return result;
-	}
 
     public static void main(String args[])  {
         int C[][] = new int[17][];
@@ -131,7 +123,7 @@ public class MyDes implements Const {
         final int[] SHIFT_COUNT = {0, 1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1};
 
 //        int KK[] = createSubkeys(K[0], );
-	    int KK[] = applyPermutation(K[0], P1);
+	    int KK[] = DES.applyPermutation(K[0], P1);
 
         Utilities.printArray(K[0], "ORIGINAL KEYS");
         Utilities.printArray(KK, "PERMUTED KEYS");
@@ -147,7 +139,7 @@ public class MyDes implements Const {
             temp = Utilities.combineArray(C[i], D[i]);
             System.out.println();
 
-            K[i] = applyPermutation(temp, P2);
+            K[i] = DES.applyPermutation(temp, P2);
 
             Utilities.printArray(C[i], " C " + i);
             Utilities.printArray(D[i], " D " + i);
@@ -155,4 +147,15 @@ public class MyDes implements Const {
             Utilities.printArray(K[i], " K " + i);
         }   
     }
+}
+
+class DES    {
+	static int[] applyPermutation(int[] sourceArray, int[] P)	{
+		int[] result = new int[P.length];
+		
+		for(int i = 0; i < P.length; i++)	{
+			result[i] = sourceArray[P[i] - 1];
+		}
+		return result;
+	}
 }
