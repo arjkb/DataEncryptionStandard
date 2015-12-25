@@ -72,19 +72,23 @@ class Utilities implements Const {
         return result;
     }
 
-/*
-    static int[] shiftRight(int array[], int count) {
-        int temp_elem = 0;  //to store the element at the border
-        for(int j = 0; j < count; j++)  {
-            temp_elem = array[array.length - 1];
-            for(int i = array.length - 1; i > 0; i--)   {
-                array[i] = array[i - 1];
-            }
-            array[0] = temp_elem;
+    static private int xor_bitwise(int a, int b)   {
+        if((a == 0) && (b == 0))    {
+            return 0;
         }
-        return array;
+        else if((a == 0) && (b == 1))   {
+            return 1;
+        }
+        else if((a == 1) && (b == 0))   {
+            return 1;
+        }
+        else if((a == 1) && (b == 1))   {
+            return 0;
+        }
+        else    {
+            return -1; // This is an error condition
+        }
     }
-*/
 }
 
 public class MyDes implements Const {
