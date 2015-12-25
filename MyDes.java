@@ -87,6 +87,12 @@ public class MyDes implements Const {
 	
 
     public static void main(String args[])  {
+
+        int[] M = { 0,0,0,0, 0,0,0,1, 0,0,1,0, 0,0,1,1,
+        0,1,0,0, 0,1,0,1, 0,1,1,0, 0,1,1,1, 
+        1,0,0,0, 1,0,0,1, 1,0,1,0, 1,0,1,1, 
+        1,1,0,0, 1,1,0,1, 1,1,1,0, 1,1,1,1 };
+        
         int C[][] = new int[17][];
         int D[][] = new int[17][];
 
