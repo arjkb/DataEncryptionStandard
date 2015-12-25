@@ -1,3 +1,9 @@
+/*
+ * Program to implement the DES algorithm
+ *
+ * Arjun Krishna Babu
+ * 25 - December - 2015
+ */
 
 interface Const {
     public int LEFT = 0;
