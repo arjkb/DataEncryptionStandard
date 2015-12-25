@@ -5,6 +5,11 @@
  * 25 - December - 2015
  */
 
+/* 
+ * Message M to be encrypted is given as an array whose
+ * each element contains the binary digit of M
+ */
+ 
 interface Const {
     public int LEFT = 0;
     public int RIGHT = 1;
@@ -50,6 +55,10 @@ class Utilities implements Const {
     }
     
     static int[] shiftLeft(int array[], int count) {
+        /*  Method to left-shift the elements of the 
+         *  array by 'count' number of elements
+         */
+
         int temp_elem = 0; // to store the element at the border
         for(int j = 0; j < count; j++)  {
             temp_elem = array[0];
@@ -62,6 +71,9 @@ class Utilities implements Const {
     }
 
     static int[] combineArray(int first[], int second[])    {
+        /*  Method to return the combination of first and second array
+         */
+
         int[] result = new int[first.length + second.length];
         
         int i = 0;
@@ -79,6 +91,9 @@ class Utilities implements Const {
     }
 
     static int[] xor(int[] Aa, int[] Bb)    {
+        /*  Method to bitwise xor the contents of two arrays
+         */
+
         int[] R = new int[Aa.length];
 
         for(int i = 0; i < R.length; i++)   {
@@ -89,6 +104,9 @@ class Utilities implements Const {
     }
 
     static private int xor_bitwise(int a, int b)   {
+        /* Returns the xor result of two integers (which should be 0 or 1)
+         */
+
         if((a == 0) && (b == 0))    {
             return 0;
         }
@@ -107,6 +125,9 @@ class Utilities implements Const {
     }
 
     static int[] splice(int[] A, int start, int size)   {
+        /* returns 'size' number of elements from A[start]
+         */
+
         int[] R = new int[size];
         for(int i = 0; i < size; i++)   {
             R[i] = A[start + i];
@@ -115,6 +136,9 @@ class Utilities implements Const {
     }
 
     static int[] convertToBinArray(int num) {
+        /* returns bin(num) in array format
+         */
+
         int[] result = null;
         switch(num) {
             case 0: result = new int[] {0,0,0,0}; break;
@@ -139,10 +163,9 @@ class Utilities implements Const {
 }
 
 public class MyDes implements Const {
-	
-
     public static void main(String args[])  {
 
+        // M is the message to be encrypted
         int[] M = { 0,0,0,0, 0,0,0,1, 0,0,1,0, 0,0,1,1,
         0,1,0,0, 0,1,0,1, 0,1,1,0, 0,1,1,1, 
         1,0,0,0, 1,0,0,1, 1,0,1,0, 1,0,1,1, 
@@ -161,6 +184,7 @@ public class MyDes implements Const {
         int[][] K = new int[17][];
         int[] temp = null;
 
+        // Original key
         K[0] = new int [] { 0,0,0,1,0,0,1,1,
                     0,0,1,1,0,1,0,0,
                     0,1,0,1,0,1,1,1,
@@ -170,53 +194,50 @@ public class MyDes implements Const {
                     1,1,0,1,1,1,1,1,
                     1,1,1,1,0,0,0,1 };
 
+        
         final int[] SHIFT_COUNT = {0, 1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1};
 
 //        int KK[] = createSubkeys(K[0], );
 	    int KK[] = DES.applyPermutation(K[0], Permutation.P1);
 
-        Utilities.printArray(K[0], "ORIGINAL KEYS");
-        Utilities.printArray(KK, "PERMUTED KEYS");
+//        Utilities.printArray(K[0], "ORIGINAL KEYS");
+//        Utilities.printArray(KK, "PERMUTED KEYS");
 
         C[0] = Utilities.getArray(KK, Const.LEFT);
         D[0] = Utilities.getArray(KK, Const.RIGHT);
         
         for(int i = 1; i <= 16; i++)  {
-            /* Loop to compute the keys */
+            /* Loop to compute the keys 1 - 16 */
 
             C[i] = Utilities.shiftLeft(C[i-1], SHIFT_COUNT[i]);
             D[i] = Utilities.shiftLeft(D[i-1], SHIFT_COUNT[i]);
 
             temp = Utilities.combineArray(C[i], D[i]);
-            System.out.println();
 
             K[i] = DES.applyPermutation(temp, Permutation.P2);
 
-            Utilities.printArray(C[i], " C " + i);
-            Utilities.printArray(D[i], " D " + i);
-            Utilities.printArray(temp, " TEMP ");
-            Utilities.printArray(K[i], " K " + i);
+//            Utilities.printArray(C[i], " C " + i);
+//            Utilities.printArray(D[i], " D " + i);
+//            Utilities.printArray(temp, " TEMP ");
+//            Utilities.printArray(K[i], " K " + i);
         }
 
         // Apply initial permutation on M
         IPM = DES.applyPermutation(M, Permutation.IP);
 
-        Utilities.printArray(IPM, "IPM", 4);
+//        Utilities.printArray(IPM, "IPM", 4);
 
         // Divide IPM into left and right half of 32 bits
         L[0] = Utilities.getArray(IPM, Const.LEFT);
         R[0] = Utilities.getArray(IPM, Const.RIGHT);
 
-        Utilities.printArray(L[0], "L0", 4);
-        Utilities.printArray(R[0], "R0", 4);
+//        Utilities.printArray(L[0], "L0", 4);
+//        Utilities.printArray(R[0], "R0", 4);
 
+        // Compute R1 to R16 and L1 to L16
         for(int i = 1; i <= 16; i++)    {
             L[i] = R[i - 1];
             R[i] = Utilities.xor(L[i - 1], DES.func(R[i - 1], K[i]));
-
-            if( i == 1 )    {
-                Utilities.printArray(R[1], "R1", 4);
-            }
         }
 
         // reverse the order of the 16th pair
@@ -249,16 +270,10 @@ class DES    {
         for(int i = 0, k = 1; i < 48; i += 6, k++)  {
             temp_6bit = Utilities.splice(temp, i, 6);
             temp_4bit = sprocess(k, temp_6bit);
-            System.out.println(" Sproc " + k);
-            Utilities.printArray(temp_6bit, "temp6", 6);
-            Utilities.printArray(temp_4bit, "temp4", 4);
-
             result = Utilities.combineArray(result, temp_4bit);
         }
 
         result = applyPermutation(result, Permutation.P);
-
-        Utilities.printArray(result, "SP result after P", 4);
 
         return result;
     }
@@ -280,7 +295,7 @@ class DES    {
             col += A[4-i] * Math.pow(2, i);
         }
 
-        System.out.println(" R " + row + ": col " + col);
+//        System.out.println(" R " + row + ": col " + col);
 
         switch(sboxnum) {
             case 1: num = S_Box.S1[row][col]; break;
