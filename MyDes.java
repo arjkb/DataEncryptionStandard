@@ -1,7 +1,8 @@
 /*
  * Program to implement the DES algorithm
  *
- * Arjun Krishna Babu
+ *
+ * Arjun Krishna Babu   on Fedora 23 Workstation
  * 25 - December - 2015
  */
 
