@@ -201,13 +201,14 @@ public class MyDes implements Const {
         Utilities.printArray(L[0], "L0", 4);
         Utilities.printArray(R[0], "R0", 4);
 
-        int[] ER = DES.applyPermutation(R[0], Permutation.E);
+        for(int i = 1; i <= 16; i++)    {
+            L[i] = R[i - 1];
+            R[i] = Utilities.xor(L[i - 1], DES.func(R[i - 1], K[i]));
 
-        Utilities.printArray(ER, "ER", 6);
-
-        temp = Utilities.xor(K[1], ER);
-        Utilities.printArray(temp, "XORed temp", 6);
-
+            if( i == 1 )    {
+                Utilities.printArray(R[1], "R1", 4);
+            }
+        }
     }
 }
 
@@ -222,7 +223,7 @@ class DES    {
 	}
 
     static int[] func(int R[], int K[]) {
-        int[] result = null;
+        int[] result = {};
         int[] ER = applyPermutation(R, Permutation.E);
         int[] temp = Utilities.xor(K, ER);
         int[] temp_6bit = null;
@@ -230,12 +231,17 @@ class DES    {
 
         for(int i = 0, k = 1; i < 48; i += 6, k++)  {
             temp_6bit = Utilities.splice(temp, i, 6);
-            temp_4bit = sprocess(i+1, temp_6bit);
+            temp_4bit = sprocess(k, temp_6bit);
+            System.out.println(" Sproc " + k);
+            Utilities.printArray(temp_6bit, "temp6", 6);
+            Utilities.printArray(temp_4bit, "temp4", 4);
 
             result = Utilities.combineArray(result, temp_4bit);
         }
 
-        applyPermutation(result, Permutation.P);
+        result = applyPermutation(result, Permutation.P);
+
+        Utilities.printArray(result, "SP result after P", 4);
 
         return result;
     }
@@ -256,6 +262,8 @@ class DES    {
         for(int i = 0; i < 4; i++)  {
             col += A[4-i] * Math.pow(2, i);
         }
+
+        System.out.println(" R " + row + ": col " + col);
 
         switch(sboxnum) {
             case 1: num = S_Box.S1[row][col]; break;
